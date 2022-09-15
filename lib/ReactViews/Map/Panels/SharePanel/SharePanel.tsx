@@ -114,8 +114,14 @@ class SharePanel extends React.Component<PropTypes, SharePanelState> {
 
   render() {
     const { t } = this.props;
-    const { catalogShare, storyShare, catalogShareWithoutText, modalWidth } =
+    const { catalogShare, storyShare, catalogShareWithoutText, modalWidth, terria } =
       this.props;
+
+    if (terria.configParameters.rockMapCustomizations) {
+      // Don't render share / print button and panel in Rock Map app.
+      return null;
+    }
+
     const dropdownTheme = {
       btn: classNames({
         [Styles.btnCatalogShare]: catalogShare,
