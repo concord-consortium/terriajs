@@ -318,6 +318,11 @@ interface ConfigParameters {
    * Options for Google Analytics
    */
   googleAnalyticsOptions?: unknown;
+
+  /**
+   * Enables customizations specific to Concord Consortium Rock Map
+   */
+  rockMapCustomizations?: boolean;
 }
 
 interface StartOptions {
@@ -527,7 +532,8 @@ export default class Terria {
     printDisclaimer: undefined,
     storyRouteUrlPrefix: undefined,
     enableConsoleAnalytics: undefined,
-    googleAnalyticsOptions: undefined
+    googleAnalyticsOptions: undefined,
+    rockMapCustomizations: false
   };
 
   @observable
