@@ -267,24 +267,27 @@ const StandardUserInterface: React.FC<StandardUserInterfaceProps> = observer(
               props.terria.configParameters.feedbackUrl &&
               !props.viewState.hideMapUi &&
               props.viewState.feedbackFormIsVisible && <FeedbackForm />}
-            <div
-              className={classNames(
-                Styles.featureInfo,
-                props.viewState.topElement === "FeatureInfo"
-                  ? "top-element"
-                  : "",
-                {
-                  [Styles.featureInfoFullScreen]:
-                    props.viewState.isMapFullScreen
-                }
-              )}
-              tabIndex={0}
-              onClick={action(() => {
-                props.viewState.topElement = "FeatureInfo";
-              })}
-            >
-              <FeatureInfoPanel />
-            </div>
+            {
+              !props.terria.configParameters.rockMapCustomizations &&
+              <div
+                className={classNames(
+                  Styles.featureInfo,
+                  props.viewState.topElement === "FeatureInfo"
+                    ? "top-element"
+                    : "",
+                  {
+                    [Styles.featureInfoFullScreen]:
+                      props.viewState.isMapFullScreen
+                  }
+                )}
+                tabIndex={0}
+                onClick={action(() => {
+                  props.viewState.topElement = "FeatureInfo";
+                })}
+              >
+                <FeatureInfoPanel />
+              </div>
+            }
             <DragDropFile />
             <DragDropNotification />
             {showStoryPanel && <StoryPanel />}
