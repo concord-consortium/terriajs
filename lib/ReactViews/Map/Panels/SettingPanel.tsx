@@ -241,6 +241,9 @@ class SettingPanel extends React.Component<PropTypes> {
           </Box>
           <FlexGrid gap={1} elementsNo={3}>
             {Object.entries(MapViewers).map(([key, viewerMode]) => (
+              this.props.terria.configParameters.rockMapCustomizations && key === "3d" ?
+              null
+              :
               <SettingsButton
                 key={key}
                 isActive={key === currentViewer}
@@ -291,88 +294,99 @@ class SettingPanel extends React.Component<PropTypes> {
               )}
             </>
           )}
-          <>
-            <Spacing bottom={2} />
-            <Box column>
-              <Box paddedVertically={1}>
-                <Text as="label">{t("settingPanel.baseMap")}</Text>
-              </Box>
-              <Box paddedVertically={1}>
-                <Text as="label" mini>
-                  {this.activeMapName}
-                </Text>
-              </Box>
-              <FlexGrid gap={1} elementsNo={4}>
-                {this.props.terria.baseMapsModel.baseMapItems.map((baseMap) => (
-                  <StyledBasemapButton
-                    key={baseMap.item?.uniqueId}
-                    isActive={
-                      baseMap.item === this.props.terria.mainViewer.baseMap
-                    }
-                    onClick={(event) => this.selectBaseMap(baseMap.item, event)}
-                    onMouseEnter={this.mouseEnterBaseMap.bind(this, baseMap)}
-                    onMouseLeave={this.mouseLeaveBaseMap.bind(this, baseMap)}
-                    onFocus={this.mouseEnterBaseMap.bind(this, baseMap)}
-                  >
-                    {baseMap.item === this.props.terria.mainViewer.baseMap ? (
-                      <Box position="absolute" topRight>
-                        <StyledIcon
-                          light
-                          glyph={GLYPHS.selected}
-                          styledWidth={"22px"}
-                        />
-                      </Box>
-                    ) : null}
-                    <StyledImage
-                      fullWidth
-                      alt={baseMap.item ? (baseMap.item as any).name : ""}
-                      src={baseMap.image}
-                    />
-                  </StyledBasemapButton>
-                ))}
-              </FlexGrid>
-            </Box>
-          </>
-          <>
-            <Spacing bottom={2} />
-            <Box column>
-              <Box paddedVertically={1}>
-                <Text as="label">{t("settingPanel.timeline.title")}</Text>
-              </Box>
-              <Checkbox
-                textProps={{ small: true }}
-                id="alwaysShowTimeline"
-                isChecked={timelineStack.alwaysShowingTimeline}
-                title={alwaysShowTimelineLabel}
-                onChange={() => {
-                  timelineStack.setAlwaysShowTimeline(
-                    !timelineStack.alwaysShowingTimeline
-                  );
-                }}
-              >
-                <TextSpan>{t("settingPanel.timeline.alwaysShow")}</TextSpan>
-              </Checkbox>
-            </Box>
-          </>
-          {this.props.terria.mainViewer.viewerMode !== ViewerMode.Leaflet && (
+          { // Disable Base Map selection in Rock Map
+            !this.props.terria.configParameters.rockMapCustomizations &&
             <>
               <Spacing bottom={2} />
               <Box column>
                 <Box paddedVertically={1}>
-                  <Text as="label">{t("settingPanel.imageOptimisation")}</Text>
+                  <Text as="label">{t("settingPanel.baseMap")}</Text>
+                </Box>
+                <Box paddedVertically={1}>
+                  <Text as="label" mini>
+                    {this.activeMapName}
+                  </Text>
+                </Box>
+                <FlexGrid gap={1} elementsNo={4}>
+                  {this.props.terria.baseMapsModel.baseMapItems.map((baseMap) => (
+                    <StyledBasemapButton
+                      key={baseMap.item?.uniqueId}
+                      isActive={
+                        baseMap.item === this.props.terria.mainViewer.baseMap
+                      }
+                      onClick={(event) => this.selectBaseMap(baseMap.item, event)}
+                      onMouseEnter={this.mouseEnterBaseMap.bind(this, baseMap)}
+                      onMouseLeave={this.mouseLeaveBaseMap.bind(this, baseMap)}
+                      onFocus={this.mouseEnterBaseMap.bind(this, baseMap)}
+                    >
+                      {baseMap.item === this.props.terria.mainViewer.baseMap ? (
+                        <Box position="absolute" topRight>
+                          <StyledIcon
+                            light
+                            glyph={GLYPHS.selected}
+                            styledWidth={"22px"}
+                          />
+                        </Box>
+                      ) : null}
+                      <StyledImage
+                        fullWidth
+                        alt={baseMap.item ? (baseMap.item as any).name : ""}
+                        src={baseMap.image}
+                      />
+                    </StyledBasemapButton>
+                  ))}
+                </FlexGrid>
+              </Box>
+            </>
+          }
+          { // Disable timeline in Rock Map
+            !this.props.terria.configParameters.rockMapCustomizations &&
+            <>
+              <Spacing bottom={2} />
+              <Box column>
+                <Box paddedVertically={1}>
+                  <Text as="label">{t("settingPanel.timeline.title")}</Text>
                 </Box>
                 <Checkbox
                   textProps={{ small: true }}
-                  id="mapUseNativeResolution"
-                  isChecked={useNativeResolution}
-                  title={nativeResolutionLabel}
-                  onChange={() => this.toggleUseNativeResolution()}
+                  id="alwaysShowTimeline"
+                  isChecked={timelineStack.alwaysShowingTimeline}
+                  title={alwaysShowTimelineLabel}
+                  onChange={() => {
+                    timelineStack.setAlwaysShowTimeline(
+                      !timelineStack.alwaysShowingTimeline
+                    );
+                  }}
                 >
-                  <TextSpan>
-                    {t("settingPanel.nativeResolutionHeader")}
-                  </TextSpan>
+                  <TextSpan>{t("settingPanel.timeline.alwaysShow")}</TextSpan>
                 </Checkbox>
-                <Spacing bottom={2} />
+              </Box>
+            </>
+          }
+          {this.props.terria.mainViewer.viewerMode !== ViewerMode.Leaflet && (
+            <>
+              <Spacing bottom={2} />
+              <Box column>
+                { // Disable image optimization in Rock Map
+                  !this.props.terria.configParameters.rockMapCustomizations &&
+                  <>
+                    <Box paddedVertically={1}>
+                      <Text as="label">{t("settingPanel.imageOptimisation")}</Text>
+                    </Box>
+                    <Checkbox
+                      textProps={{ small: true }}
+                      id="mapUseNativeResolution"
+                      isChecked={useNativeResolution}
+                      title={nativeResolutionLabel}
+                      onChange={() => this.toggleUseNativeResolution()}
+                    >
+                      <TextSpan>
+                        {t("settingPanel.nativeResolutionHeader")}
+                      </TextSpan>
+                    </Checkbox>
+                    <Spacing bottom={2} />
+                  </>
+                }
                 <Box paddedVertically={1}>
                   <Text as="label">{t("settingPanel.mapQuality")}</Text>
                 </Box>
