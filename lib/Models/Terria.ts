@@ -1035,7 +1035,15 @@ export default class Terria {
 
   loadPersistedMapSettings(): void {
     const persistViewerMode = this.configParameters.persistViewerMode;
-    const hashViewerMode = this.userProperties.get("map");
+
+    // Rock Map modification. this.userProperties.get("map") should return URL hash param #map, but it's always
+    // undefined. Possibly there's a bug that causes this value to be read too late. A few lines below workaround it.
+    const uri = new URI(window.location.href);
+    const hash = uri.fragment();
+    const hashProperties = queryToObject(hash);
+
+    const hashViewerMode = this.userProperties.get("map") || hashProperties.map;
+
     if (hashViewerMode && isViewerMode(hashViewerMode)) {
       setViewerMode(hashViewerMode, this.mainViewer);
     } else if (persistViewerMode) {
