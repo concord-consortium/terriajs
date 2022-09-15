@@ -529,22 +529,26 @@ class ViewingControls extends React.Component<
           >
             {t("workbench.previewItem")}
           </WorkbenchButton>
-          <WorkbenchButton
-            css="flex-grow:0;"
-            onClick={(e) => {
-              e.stopPropagation();
-              runInAction(() => {
-                if (viewState.workbenchItemWithOpenControls === item.uniqueId) {
-                  viewState.workbenchItemWithOpenControls = undefined;
-                } else {
-                  viewState.workbenchItemWithOpenControls = item.uniqueId;
-                }
-              });
-            }}
-            title={t("workbench.showMoreActionsTitle")}
-            iconOnly
-            iconElement={() => <Icon glyph={Icon.GLYPHS.menuDotted} />}
-          />
+          {
+            // Rock Map version disabled the hamburger menu with advanced options.
+            !item.terria.configParameters.rockMapCustomizations &&
+            <WorkbenchButton
+              css="flex-grow:0;"
+              onClick={(e) => {
+                e.stopPropagation();
+                runInAction(() => {
+                  if (viewState.workbenchItemWithOpenControls === item.uniqueId) {
+                    viewState.workbenchItemWithOpenControls = undefined;
+                  } else {
+                    viewState.workbenchItemWithOpenControls = item.uniqueId;
+                  }
+                });
+              }}
+              title={t("workbench.showMoreActionsTitle")}
+              iconOnly
+              iconElement={() => <Icon glyph={Icon.GLYPHS.menuDotted} />}
+            />
+          }
         </Ul>
         {showMenu && (
           <Box
