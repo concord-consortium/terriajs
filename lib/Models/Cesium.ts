@@ -423,6 +423,12 @@ export default class Cesium extends GlobeOrMap {
       this.cesiumWidget.scene.globe.maximumScreenSpaceError =
         this.terria.baseMaximumScreenSpaceError;
     });
+
+    if (this.terria.configParameters.rockMapCustomizations) {
+      this.scene.skyAtmosphere.show = false;
+      this.scene.fog.enabled = false;
+      this.scene.globe.showGroundAtmosphere = false;
+    }
   }
 
   private updateCredits(container: string | HTMLElement) {
