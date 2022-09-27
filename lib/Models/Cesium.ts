@@ -853,6 +853,10 @@ export default class Cesium extends GlobeOrMap {
     return _zoom().finally(() => this.notifyRepaintRequired());
   }
 
+  setMinZoom(val: number): void {
+    // TODO
+  }
+
   notifyRepaintRequired() {
     this.pauser.notifyRepaintRequired();
   }

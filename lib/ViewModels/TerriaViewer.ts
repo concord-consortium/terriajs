@@ -175,9 +175,15 @@ export default class TerriaViewer {
       newViewer = untracked(() => new NoViewer(this));
     }
 
+    if (this.terria.configParameters.rockMapCustomizations && this.viewerMode === ViewerMode.Leaflet) {
+      // Limit min zoom so students are not confused by ~6 repetitions of the map in 2d mode.
+      newViewer.setMinZoom(2);
+    }
+
     console.log(`Creating a viewer: ${newViewer.type}`);
     this._lastViewer = newViewer;
     newViewer.zoomTo(currentView || untracked(() => this.homeCamera), 0.0);
+
 
     return newViewer;
   }

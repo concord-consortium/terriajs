@@ -69,6 +69,8 @@ export default abstract class GlobeOrMap {
     flightDurationSeconds: number
   ): Promise<void>;
 
+  abstract setMinZoom(val: number): void;
+
   /**
    * Zoom map to a dataset or the given bounds.
    *

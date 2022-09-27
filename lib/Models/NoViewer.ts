@@ -39,6 +39,10 @@ class NoViewer extends GlobeOrMap {
     return Promise.resolve();
   }
 
+  setMinZoom(val: number): void {
+    // TODO
+  }
+
   notifyRepaintRequired() {}
 
   pickFromLocation(

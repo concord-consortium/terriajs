@@ -488,6 +488,10 @@ export default class Leaflet extends GlobeOrMap {
     return Promise.resolve();
   }
 
+  setMinZoom(val: number) {
+    this.map.setMinZoom(val);
+  }
+
   getCurrentCameraView(): CameraView {
     const bounds = this.map.getBounds();
     return new CameraView(
@@ -1054,6 +1058,8 @@ export default class Leaflet extends GlobeOrMap {
     if (isDefined(map.options.maxZoom)) {
       options.maxZoom = map.options.maxZoom;
     }
+
+    console.log("LAYER ADDED");
 
     const layer = new ImageryProviderLeafletGridLayer(
       this,
