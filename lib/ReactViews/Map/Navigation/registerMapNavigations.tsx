@@ -74,20 +74,22 @@ export const registerMapNavigations = (viewState: ViewState) => {
     order: 3
   });
 
-  const toggleSplitterController = new ToggleSplitterController(viewState);
-  mapNavigationModel.addItem({
-    id: ToggleSplitterController.id,
-    name: "translate#splitterTool.toggleSplitterToolTitle",
-    title: runInAction(() =>
-      toggleSplitterController.disabled
-        ? "translate#splitterTool.toggleSplitterToolDisabled"
-        : "translate#splitterTool.toggleSplitterTool"
-    ),
-    location: "TOP",
-    controller: toggleSplitterController,
-    screenSize: undefined,
-    order: 4
-  });
+  if (!terria.configParameters.rockMapCustomizations) {
+    const toggleSplitterController = new ToggleSplitterController(viewState);
+    mapNavigationModel.addItem({
+      id: ToggleSplitterController.id,
+      name: "translate#splitterTool.toggleSplitterToolTitle",
+      title: runInAction(() =>
+        toggleSplitterController.disabled
+          ? "translate#splitterTool.toggleSplitterToolDisabled"
+          : "translate#splitterTool.toggleSplitterTool"
+      ),
+      location: "TOP",
+      controller: toggleSplitterController,
+      screenSize: undefined,
+      order: 4
+    });
+  }
 
   const measureTool = new MeasureTool({
     terria,
